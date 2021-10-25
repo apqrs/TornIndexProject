@@ -1,24 +1,16 @@
 from flask import Flask, render_template, url_for, flash, redirect, request
-from flask_sqlalchemy import SQLAlchemy
 import json
-import mysql.connector
 
 
 
 app = Flask(__name__)
 
-# with open("data/list.json", 'r') as file:
-#     f = json.load(file)
 
 @app.route("/")
 def index():
     return render_template("index.html")
 
-# <option value="2k">Less than 2k</option>
-#             <option value="2k-25k">2k-25k</option>
-#             <option value="25k-250k">25k-250k</option>
-#             <option value="250k-2m">250k-2m</option>
-#             <option value="2m-200m">2m-200m</option>
+
 
 @app.route("/show", methods = ["POST"])
 def show():
@@ -52,7 +44,6 @@ def show():
 
     with open(name,'r') as file:
         file = json.load(file)
-    print(file)
     bdata = file
     
 
