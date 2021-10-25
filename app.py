@@ -27,17 +27,17 @@ def show():
     dat = {}
     name = ""
     if selector == "2k":
-        name = "under2k.json"
+        name = "under2k"
     elif selector=="2k-25k":
-        name = "under25k.json"
+        name = "under25k"
     elif selector == "25k-250k":
-        name = "under250k.json"
+        name = "under250k"
     elif selector == "250k-2m":
-        name = "under2m.json"
+        name = "under2m"
     elif selector == "2m-200m":
-        name = "under200m.json"
+        name = "under200m"
 
-    name = f"data/{name}"
+    name = f"data/{name}.json"
 
     with open(name,'r') as file:
         file = json.load(file)
@@ -48,8 +48,16 @@ def show():
 
     dat = sorted(dat.items(), key=lambda x:x[1][1], reverse = True)
 
+    name = name.replace('under','baldr')
 
-    return render_template("index.html", data = dat)
+    with open(name,'r') as file:
+        file = json.load(file)
+    print(file)
+    bdata = file
+    
+
+
+    return render_template("index.html", data = dat, bdata = bdata, nam = selector)
 
 if __name__=="__main__":
     app.run(debug=False,host='0.0.0.0')
