@@ -25,6 +25,34 @@ for i in data:
     elif total <= 200000000:
         under200m[id] = [name, lvl, str, defe, spd, dxt, total, f"https://www.torn.com/profiles.php?XID={id}"]
 
+under2ka = sorted(under2k.items(), key = lambda x: x[1][6], reverse=True)
+under25ka = sorted(under25k.items(), key = lambda x: x[1][6], reverse=True)
+under250ka = sorted(under250k.items(), key = lambda x: x[1][6], reverse=True)
+under2ma= sorted(under2m.items(), key = lambda x: x[1][6], reverse=True)
+under25ma = sorted(under25m.items(), key = lambda x: x[1][6], reverse=True)
+under200ma = sorted(under200m.items(), key = lambda x: x[1][6], reverse=True)
+
+under2k = {}
+under25k = {}
+under250k = {}
+under2m ={}
+under25m = {}
+under200m = {}
+
+for f in under2ka:
+    under2k[f[0]]= f[1]
+for f in under25ka:
+    under25k[f[0]]= f[1]
+for f in under250ka:
+    under250k[f[0]]= f[1]
+for f in under2ma:
+    under2m[f[0]]= f[1]
+for f in under25ma:
+    under25m[f[0]]= f[1]
+for f in under200ma:
+    under200m[f[0]]= f[1]
+
+
 with open('data/baldr2k.json','w') as file:
     json.dump(under2k, file, indent=2) 
 

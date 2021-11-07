@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Orange</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename = 'favv.png') }}" />
 
     <style>
         body{
@@ -24,23 +25,30 @@
             margin-left:auto;
             margin-right:auto;
         }
+        .contact{
+            font-size: 15px;
+            display: block;
+            position: absolute;
+            left: 10px;
+        }
     </style>
-    
+
 </head>
 <body>
-    
+    <p class="contact">Created by <a href="https://www.torn.com/profiles.php?XID=2669774" target="_blank">--ZERO--</a></p>
+
     <div>
 
         <form action="/show" id = 'data_selection' method="POST">
-        
-        
+
+
         <label for="range">Choose a range</label>
         <select name="range" id="range" form='data_selection'>
             <option value="2k">Less than 2k</option>
             <option value="2k-25k">2k-25k</option>
             <option value="25k-250k">25k-250k</option>
             <option value="250k-2m">250k-2m</option>
-            <option value="2m-200m">2m-200m</option>
+            <option value="2m-25m">2m-25m</option>
 
 
 
@@ -57,6 +65,6 @@
     {% block tab %}
     {% endblock %}
     </div>
-    
+
 </body>
 </html>

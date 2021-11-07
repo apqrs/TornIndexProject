@@ -10,12 +10,16 @@ app = Flask(__name__)
 def index():
     return render_template("index.html")
 
+@app.route("/orangewait")
+def orange():
+    return render_template("wait.html")
+
 
 
 @app.route("/show", methods = ["POST"])
 def show():
     selector = request.form.get("range")
-    
+
     dat = {}
     name = ""
     if selector == "2k":
@@ -26,14 +30,14 @@ def show():
         name = "under250k"
     elif selector == "250k-2m":
         name = "under2m"
-    elif selector == "2m-200m":
-        name = "under200m"
+    elif selector == "2m-25m":
+        name = "under20m"
 
     name = f"data/{name}.json"
 
     with open(name,'r') as file:
         file = json.load(file)
-    
+
     for id in file:
         link = f"https://www.torn.com/profiles.php?XID={id}"
         dat[id] = [file[id]["name"],file[id]["level"],file[id]["last_action_relative"],link]
@@ -44,8 +48,9 @@ def show():
 
     with open(name,'r') as file:
         file = json.load(file)
+
     bdata = file
-    
+
 
 
     return render_template("index.html", data = dat, bdata = bdata, nam = selector)
