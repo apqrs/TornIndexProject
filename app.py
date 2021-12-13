@@ -115,7 +115,7 @@ def tradeCalc():
 
         total ='$' + '{:,}'.format(money)
 
-
+        if  not order: order = 'None'
         data = {
         'api_dev_key': 'aoSBWC1-7oril_AieNcuETtizi77EqWG',
         'api_paste_code': order,
