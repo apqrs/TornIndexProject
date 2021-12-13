@@ -124,7 +124,7 @@ def tradeCalc():
         pastebin = requests.post('https://pastebin.com/api/api_post.php', data=data)
         pastebin = pastebin.text
 
-        vals = [total, pastebin]
+        vals = [total, pastebin, notFound]
 
         return render_template("calc.html", value = vals)
 

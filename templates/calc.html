@@ -22,6 +22,12 @@
     {% if value %}
         <p>{{ value[0] }}</p>
         <p><a href= {{ value[1] }}  target="_blank">{{ value[1] }}</a></p>
+        {% if value[2] %}
+        <h3>Following not found: </h3>
+            {% for i in value[2] %}
+                <p>{{ i }}</p>
+            {% endfor %}
+        {% endif %}
     {% endif %}
     
 </body>
