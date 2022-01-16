@@ -19,8 +19,6 @@ def orange():
 @app.route("/show", methods = ["POST"])
 def show():
     selector = request.form.get("range")
-
-    dat = {}
     name = ""
     if selector == "2k":
         name = "under2k"
@@ -41,8 +39,6 @@ def show():
 
     name = f"data/{name}.json"
 
-    # with open(name,'r') as file:
-    #     file = json.load(file)
     db = sqlite3.connect("orange.db")
     file = list(db.execute(f"SELECT * FROM data WHERE bstats={sel} order by lvl desc"))
 
