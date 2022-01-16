@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, flash, redirect, request
-import json
+import json, sqlite3
 
 
 
@@ -24,19 +24,27 @@ def show():
     name = ""
     if selector == "2k":
         name = "under2k"
+        sel = 0
     elif selector=="2k-25k":
         name = "under25k"
+        sel = 1
     elif selector == "25k-250k":
         name = "under250k"
+        sel = 2
     elif selector == "250k-2m":
         name = "under2m"
+        sel = 3
     elif selector == "2m-25m":
         name = "under20m"
+        sel = 4
+
 
     name = f"data/{name}.json"
 
-    with open(name,'r') as file:
-        file = json.load(file)
+    # with open(name,'r') as file:
+    #     file = json.load(file)
+    db = sqlite3.connect("orange.db")
+    file = list(db.execute(f"SELECT * FROM data WHERE bstats={sel} order by lvl desc"))
 
     data = file
 
@@ -70,13 +78,47 @@ def tradeCalc():
         sheet = client.open("ZTrade Price List").sheet1
 
 
-        it={'Sheep Plushie': (2, 2), 'Teddy Bear Plushie': (3, 2), 'Kitten Plushie': (4, 2), 'Jaguar Plushie': (5, 2), 'Wolverine Plushie': (6, 2), 'Nessie Plushie': (7, 2), 'Red Fox Plushie': (8, 2), 'Monkey Plushie': (9, 2), 'Chamois Plushie': (10, 2), 'Panda Plushie': (11, 2), 'Lion Plushie': (12, 2), 'Camel Plushie': (13, 2), 'Stingray Plushie': (14, 2), 'Dahlia': (2, 5), 'Crocus': (3, 5), 'Orchid': (4, 5), 'Heather': (5, 5), 'Ceibo Flower': (6, 5), 'Edelweiss': (7, 5), 'Peony': (8, 5), 'Cherry Blossom': (9, 5), 'African Violet': (10, 5), 'Tribulus Omanense': (11, 5), 'Banana Orchid': (12, 5), 'Bottle of Beer': (18, 2)}
+        it={'Sheep Plushie': (2, 2),
+            'Teddy Bear Plushie': (3, 2),
+            'Kitten Plushie': (4, 2),
+            'Jaguar Plushie': (5, 2),
+            'Wolverine Plushie': (6, 2),
+            'Nessie Plushie': (7, 2),
+            'Red Fox Plushie': (8, 2),
+            'Monkey Plushie': (9, 2),
+            'Chamois Plushie': (10, 2),
+            'Panda Plushie': (11, 2),
+            'Lion Plushie': (12, 2),
+            'Camel Plushie': (13, 2),
+            'Stingray Plushie': (14, 2),
+            'Dahlia': (2, 5),
+            'Crocus': (3, 5),
+            'Orchid': (4, 5),
+            'Heather': (5, 5),
+            'Ceibo Flower': (6, 5),
+            'Edelweiss': (7, 5),
+            'Peony': (8, 5),
+            'Cherry Blossom': (9, 5),
+            'African Violet': (10, 5),
+            'Tribulus Omanense': (11, 5),
+            'Banana Orchid': (12, 5),
+            'Bottle of Beer': (18, 2),
+            'Erotic DVD': (21,2),
+            'Can of Munster': (5,8),
+            'Can of Red Cow': (6,8),
+            'Can of Taurine Elite': (7,8),
+            'Can of Santa Shooters': (8,8),
+            'Can of Rockstar Rudolph': (9,8),
+            'Can of X-MASS': (10,8),
+            'Can of Goose Juice': (11,8),
+            'Can of Damp Valley': (12,8),
+            'Can of Crocozade': (13,8),}
 
 
         notFound = []
         money = 0
         order = ''
-        for line in items.split('/n'):
+        for line in items.split('\n'):
             data = line.split('$')[0].split()
             num = int(data[-1][1:])
             name = ' '.join(data[:-1])
@@ -85,7 +127,7 @@ def tradeCalc():
                 val = int(sheet.cell(row,column).value.replace(',',''))
                 money += val * num
 
-                strName = str(name).ljust(20,' ')
+                strName = str(name).ljust(30,' ')
 
                 strNum = '{:,}'.format(num)
                 strNum = strNum.rjust(10,' ')
@@ -106,7 +148,7 @@ def tradeCalc():
 
 
                 order += line + '\n'
-                print(line)
+
 
 
 
@@ -114,6 +156,13 @@ def tradeCalc():
                 notFound += [name]
 
         total ='$' + '{:,}'.format(money)
+        mon = total[1:]
+        order += '-' * 70 + '\n'
+        total ='$' + '{:,}'.format(money)
+        total = total.rjust(15,' ')
+        endLine = 'Total |'.rjust(55,' ') + total
+        order += endLine
+
 
         if  not order: order = 'None'
         data = {
@@ -124,7 +173,7 @@ def tradeCalc():
         pastebin = requests.post('https://pastebin.com/api/api_post.php', data=data)
         pastebin = pastebin.text
 
-        vals = [total, pastebin, notFound]
+        vals = [mon, pastebin, notFound]
 
         return render_template("calc.html", value = vals)
 
